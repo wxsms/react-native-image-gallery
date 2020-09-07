@@ -25,14 +25,16 @@ export default class Gallery extends PureComponent {
     removeClippedSubviews: PropTypes.bool,
     imageComponent: PropTypes.func,
     errorComponent: PropTypes.func,
-    flatListProps: PropTypes.object
+    flatListProps: PropTypes.object,
+    disableGesture: PropTypes.bool
   };
 
   static defaultProps = {
     removeClippedSubviews: true,
     imageComponent: undefined,
     scrollViewStyle: {},
-    flatListProps: DEFAULT_FLAT_LIST_PROPS
+    flatListProps: DEFAULT_FLAT_LIST_PROPS,
+    disableGesture: false
   };
 
   imageRefs = new Map();
@@ -287,6 +289,7 @@ export default class Gallery extends PureComponent {
       gestureResponder = {};
     }
 
+    const _gestureResponder = this.props.disableGesture ? null : gestureResponder;
     const flatListProps = {...DEFAULT_FLAT_LIST_PROPS, ...this.props.flatListProps};
 
     return (
@@ -298,7 +301,7 @@ export default class Gallery extends PureComponent {
         scrollEnabled={false}
         renderPage={this.renderPage}
         pageDataArray={images}
-        {...gestureResponder}
+        {..._gestureResponder}
         onPageSelected={this.onPageSelected}
         onPageScrollStateChanged={this.onPageScrollStateChanged}
         onPageScroll={this.props.onPageScroll}
